@@ -1,0 +1,28 @@
+﻿body {
+    font-family: 'Ubuntu', sans-serif;
+}
+table {
+    width: 80% !important;
+    max-width: 100%;
+    text-align: -webkit-left;
+    text-align: -moz-left;
+    margin: 5% 10%;
+}
+.form-create {
+    margin: 5%;
+    padding: 2%;
+    border: 1px solid;
+}
+.b-link {
+    margin:2%;
+    text-align:center;
+}
+.custom-inline {
+    display:inline-block;
+    vertical-align: middle;
+}
+.form-edit {
+    margin: 5%;
+    padding: 2%;
+    border: 1px solid;
+}
