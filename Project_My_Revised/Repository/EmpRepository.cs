@@ -8,6 +8,7 @@ using Project_My_Revised.Models;
 using System.Data;
 using MySql.Data.MySqlClient;
 
+
 namespace Project_My_Revised.Repository
 {
     public class EmpRepository
@@ -25,13 +26,13 @@ namespace Project_My_Revised.Repository
             connection();
             MySqlCommand com = new MySqlCommand("AddNewEmpDetails", con);
             com.CommandType = CommandType.StoredProcedure;
-
             com.Parameters.AddWithValue("E_Emp_ID", obj.EmpId);
             com.Parameters.AddWithValue("E_Emp_Name", obj.Name);
             com.Parameters.AddWithValue("E_Address", obj.Address);
             com.Parameters.AddWithValue("E_Contact", obj.Contact_number);
             com.Parameters.AddWithValue("E_PAN", obj.Pan);
             com.Parameters.AddWithValue("E_Start_Date", obj.Start_date);
+    
             com.Parameters.AddWithValue("E_End_Date", obj.End_date);
             com.Parameters.AddWithValue("E_Date_Of_Birth", obj.Date_of_birth);
             com.Parameters.AddWithValue("E_Salary", obj.Salary);
@@ -76,7 +77,7 @@ namespace Project_My_Revised.Repository
                         Contact_number = Convert.ToString(dr["Contact"]),
                         Pan = Convert.ToString(dr["PAN"]),
                         Start_date = Convert.ToDateTime(dr["Start_Date"]),
-                        End_date = Convert.ToDateTime(dr["End_Date"]),
+                        End_date =  (Convert.IsDBNull(dr["End_Date"]) ? null : (DateTime?) Convert.ToDateTime(dr["End_Date"])),
                         Date_of_birth = Convert.ToDateTime(dr["Date_of_Birth"]),
                         Salary = Convert.ToInt32(dr["Salary"]),
                         Status = Convert.ToBoolean(dr["Emp_Status"]),

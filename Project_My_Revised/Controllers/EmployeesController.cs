@@ -37,17 +37,16 @@ namespace Project_My_Revised.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+               
                     EmpRepository EmpRepo = new EmpRepository();
                     if (EmpRepo.AddEmployee(Emp))
                     {
                         ViewBag.Message = "Employee details added Successfully";
-                        ViewBag.message.cssClass = "alert alert-danger";
+                     
                     }
-                }
+                
 
-                return View();
+                return RedirectToAction("GetAllEmpDetails");
             }
             catch
             {

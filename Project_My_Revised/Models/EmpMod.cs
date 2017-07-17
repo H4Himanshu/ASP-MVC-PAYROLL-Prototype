@@ -22,10 +22,17 @@ namespace Project_My_Revised.Models
         public string Contact_number { get; set; }
         public string Pan { get; set; }
         public DateTime Start_date { get; set; }
-        public DateTime End_date { get; set; }
+        public DateTime? End_date { get; set; }
         public DateTime Date_of_birth { get; set; }
         public int Salary { get; set; }
         public bool Status { get; set; }
         public DateTime Last_Updated { get; set; }
+
+        public EmpMod()
+        {
+             DateTime? End_date=null;
+        }
+
     }
+
 }
