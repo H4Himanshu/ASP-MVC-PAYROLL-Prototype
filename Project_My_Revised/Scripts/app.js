@@ -7,7 +7,7 @@
 
     $('#End_date').datepicker({
         onSelect: function (dateText, inst) {
-            $('#End_date').datepicker('option', 'maxDate', new Date(dateText));
+            $('#Start_date').datepicker('option', 'maxDate', new Date(dateText));
         }
     });
 });
