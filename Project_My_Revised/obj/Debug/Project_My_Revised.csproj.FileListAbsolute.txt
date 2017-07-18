@@ -24,4 +24,7 @@ C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_
 C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\obj\Debug\Project_My_Revised.dll
 C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\obj\Debug\Project_My_Revised.pdb
 C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\bin\MySql.Data.dll
-C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\obj\Debug\Project_My_Revised.csprojResolveAssemblyReference.cache
+C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\bin\ClosedXML.dll
+C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\bin\DocumentFormat.OpenXml.dll
+C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\bin\ClosedXML.pdb
+C:\Users\torre\documents\visual studio 2012\Projects\Project_My_Revised\Project_My_Revised\bin\ClosedXML.xml

@@ -8,6 +8,8 @@ using Project_My_Revised.Models;
 using System.Data;
 using System.Configuration;
 using MySql.Data.MySqlClient;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace Project_My_Revised.Controllers
 {
@@ -96,62 +98,39 @@ namespace Project_My_Revised.Controllers
                 return View();
             }
         }
-
         public ActionResult ExportCSV()
         {
-            string constr = ConfigurationManager.ConnectionStrings["getConn"].ConnectionString;
-            using (MySqlConnection con = new MySqlConnection(constr))
+            String constring = ConfigurationManager.ConnectionStrings["getConn"].ConnectionString;
+            MySqlConnection con = new MySqlConnection(constring);
+            string query = "SELECT  EmpId, Emp_Name, Salary , Start_date , End_date , CASE WHEN (Employees.End_Date is null)  THEN DATEDIFF(DATE_ADD(Start_Date, INTERVAL 30 DAY), Start_Date) * Salary/30 ELSE DATEDIFF(End_Date, Start_Date) * Salary/30  END AS Total_Salary From Employees group by EmpId ;";
+            DataTable dt = new DataTable();
+            dt.TableName = "Employee";
+            con.Open();
+            MySqlDataAdapter da = new MySqlDataAdapter(query, con);
+            da.Fill(dt);
+            con.Close();
+
+            using (XLWorkbook wb = new XLWorkbook())
             {
-                using (MySqlCommand cmd = new MySqlCommand("SELECT  EmpId, Emp_Name, Salary , Start_date , End_date , CASE WHEN (Employees.End_Date is null)  THEN DATEDIFF(DATE_ADD(Start_Date, INTERVAL 30 DAY), Start_Date) * Salary/30 ELSE DATEDIFF(End_Date, Start_Date) * Salary/30  END AS Total_Salary From Employees group by EmpId ;"))
+                wb.Worksheets.Add(dt);
+                wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                wb.Style.Font.Bold = true;
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
+
+                using (MemoryStream MyMemoryStream = new MemoryStream())
                 {
-                    using (MySqlDataAdapter sda = new MySqlDataAdapter())
-                    {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
-                        {
-                            sda.Fill(dt); 
-
-                            //Build the CSV file data as a Comma separated string.
-                            string csv = string.Empty;
-
-                            foreach (DataColumn column in dt.Columns)
-                            {
-                                //Add the Header row for CSV file.
-                                csv += column.ColumnName + ',';
-                            }
-
-                            //Add new line.
-                            csv += "\r\n";
-
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                foreach (DataColumn column in dt.Columns)
-                                {
-                                    //Add the Data rows.
-                                    csv += row[column.ColumnName].ToString().Replace(",", ";") + ',';
-                                }
-
-                                //Add new line.
-                                csv += "\r\n";
-                            }
-
-                            //Download the CSV file.
-                            Response.Clear();
-                            Response.Buffer = true;
-                            Response.AddHeader("content-disposition", "attachment;filename=SqlExport.csv");
-                            Response.Charset = "";
-                            Response.ContentType = "application/text";
-
-                            Response.Output.Write(csv);
-                            Response.Flush();
-                            Response.End();
-                            return RedirectToAction("GetAllEmpDetails");
-                            
-                        }
-                    }
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
                 }
             }
-        }
+            return RedirectToAction("GetAllEmpDetails");
+        }  
     }
 }
